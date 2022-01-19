@@ -1,5 +1,6 @@
 ﻿using Microsoft.Owin;
 using Owin;
+using System;
 
 [assembly: OwinStartupAttribute(typeof(SchoolManagement.Startup))]
 namespace SchoolManagement
@@ -9,6 +10,10 @@ namespace SchoolManagement
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+        }
+        public void createuser()
+        {
+            Console.WriteLine("TESt for Github");
         }
     }
 }
