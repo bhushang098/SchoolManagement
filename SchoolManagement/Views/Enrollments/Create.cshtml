@@ -5,6 +5,34 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script>
+    $(function () {
+        $("#Student_FirstName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/Enrollments/GetStudents",
+                    dataType: "json",
+                    type:"POST",
+                    data: {
+                        term: request.term
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        response($.map(data, function (item) {
+                            return { label: item.Name, value: item.Name, id: item.Id};
+                        }))
+                    }
+                });
+            },
+            minLength: 2,
+            select: function (event, ui) {
+                console.log(ui);
+                $("#StudentID").val(ui.item.id)
+            }
+        });
+    });
+</script>
+
 <h2>Create</h2>
 
 @using (Html.BeginForm()) 
@@ -42,7 +70,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.StudentID, "StudentID", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("StudentID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.EditorFor(model => model.Student.FirstName,new {htmlAttrbute = new {@class = "form-control"}})
+                @Html.HiddenFor(model => model.StudentID)
                 @Html.ValidationMessageFor(model => model.StudentID, "", new { @class = "text-danger" })
             </div>
         </div>

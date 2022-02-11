@@ -124,6 +124,18 @@ namespace SchoolManagement.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public JsonResult GetStudents(string term)
+        {
+            var students = db.Students.Select(q => new
+            {
+                Name = q.FirstName +" "+ q.lastName,
+                Id = q.StudentID,
+            }).Where(q => q.Name.Contains(term));
+
+            return Json(students,JsonRequestBehavior.AllowGet);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
